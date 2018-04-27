@@ -46,9 +46,6 @@ public class CreateSubTaskTestStep {
 
 	@Then("^I should see the \"([^\"]*)\" button$")
 	public void i_should_see_the_button(String arg1) throws Throwable {
-		String buttonName = myTask.getSubTaskButtonValueForTask("test task");
-		String test = arg1;
-
 		Assert.assertTrue(myTask.getSubTaskButtonValueForTask("test task").contains(arg1));
 	}
 
@@ -158,7 +155,7 @@ public class CreateSubTaskTestStep {
 		subTaskPage.clickAddSubTaskButton();
 		subTaskPage.enterValueForSubTaskDescription(arg2);
 		subTaskPage.clickAddSubTaskButton();
-		
+
 	}
 
 	@When("^click on the Done column for subtasks of \"([^\"]*)\" and \"([^\"]*)\"$")
@@ -174,15 +171,35 @@ public class CreateSubTaskTestStep {
 
 	@When("^open the popup window again for task of \"([^\"]*)\"$")
 	public void open_the_popup_window_again_for_task_of(String arg1) throws Throwable {
-		myTask= new MyTasksPage(driver);
+		myTask = new MyTasksPage(driver);
 		myTask.clickSubTaskButtonForTask(arg1);
 	}
 
 	@Then("^I should still see both the subtasks done checkbox as selected$")
 	public void i_should_still_see_both_the_subtasks_done_checkbox_as_selected() throws Throwable {
-		subTaskPage.isSubTaskChecboxSelected("Done1");
-		subTaskPage.isSubTaskChecboxSelected("Done2");
-		driver.close();
+		Assert.assertEquals(true, subTaskPage.isSubTaskChecboxSelected("Done1"));
+		Assert.assertEquals(true, subTaskPage.isSubTaskChecboxSelected("Done2"));
+	}
+
+	@When("^I create a subtask \"([^\"]*)\"$")
+	public void i_create_a_subtask(String arg1) throws Throwable {
+		subTaskPage.enterValueForSubTaskDescription(arg1);
+		subTaskPage.clickAddSubTaskButton();
+	}
+
+	@When("^click on the Done column for subtasks of \"([^\"]*)\"$")
+	public void click_on_the_Done_column_for_subtasks_of(String arg1) throws Throwable {		
+		subTaskPage.toggleSubTaskChecbox(arg1, true);
+	}
+
+	@When("^disable the checkbox for the subtasks of \"([^\"]*)\"$")
+	public void disable_the_checkbox_for_the_subtasks_of(String arg1) throws Throwable {
+		subTaskPage.toggleSubTaskChecbox(arg1, false);
+	}
+
+	@Then("^I should see the checkbox for the subtasks of \"([^\"]*)\"$")
+	public void i_should_see_the_checkbox_for_the_subtasks_of(String arg1) throws Throwable {
+		Assert.assertEquals(false, subTaskPage.isSubTaskChecboxSelected(arg1));
 	}
 
 }
