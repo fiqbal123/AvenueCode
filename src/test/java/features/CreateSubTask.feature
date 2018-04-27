@@ -61,4 +61,11 @@ Feature: Create Sub Task
     And close the popup window
     And open the popup window again for task of "change value"
     Then I should still see both the subtasks done checkbox as selected
+    
+   Scenario: Ensure user is able enable and disable the done checkbox for a subtask
+    Given user is on subtask popup page
+    When I create a subtask "TestUncheck1"
+    And click on the Done column for subtasks of "TestUncheck1"
+    And disable the checkbox for the subtasks of "TestUncheck1"
+    Then I should see the checkbox for the subtasks of "TestUncheck1"
 
